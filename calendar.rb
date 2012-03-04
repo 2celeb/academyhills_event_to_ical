@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-# calendar.rb
+
+require 'rubygems'
 require 'sinatra'
 #require 'icalendar'
 #require 'nokogiri'
