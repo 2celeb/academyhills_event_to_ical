@@ -9,5 +9,5 @@ require 'sinatra'
 
 
 get '/' do
-  'Hello world!＼(^o^)／'
+  'Hello world!'
 end
