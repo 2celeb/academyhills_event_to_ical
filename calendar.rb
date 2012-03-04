@@ -43,7 +43,7 @@ get '/ical' do
         e = Icalendar::Event.new
         e.dtstart = DateTime.new(d.year,d.month,day,start_time[0].to_i,start_time[1].to_i)
         e.dtend = DateTime.new(d.year,d.month,day,end_time[0].to_i,end_time[1].to_i)
-        e.summary title
+        e.summary = title
         c.add_event(e)
       end
     end
