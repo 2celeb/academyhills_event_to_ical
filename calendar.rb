@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-# myapp.rb
+# calendar.rb
 require 'sinatra'
 #require 'icalendar'
 #require 'nokogiri'
