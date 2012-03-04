@@ -49,8 +49,8 @@ get '/ical' do
     end
   end
   output = ""
-  c.to_ical.line do|l|
-    output += l unless /^\s/
+  c.to_ical.lines do|l|
+    output += l unless /^\s/ =~ l
   end
   output
 
