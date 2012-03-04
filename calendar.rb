@@ -45,7 +45,6 @@ get '/ical' do
         e.dtend = DateTime.new(d.year,d.month,day,end_time[0].to_i,end_time[1].to_i)
         e.summary title
         c.add_event(e)
-      else
       end
     end
   end
