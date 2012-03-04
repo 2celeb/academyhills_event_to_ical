@@ -48,6 +48,10 @@ get '/ical' do
       end
     end
   end
-  c.to_ical
+  output = ""
+  c.to_ical.line do|l|
+    output += l unless /^\s/
+  end
+  output
 
 end
