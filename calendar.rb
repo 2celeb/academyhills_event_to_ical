@@ -7,7 +7,7 @@ require 'nokogiri'
 require 'open-uri'
 
 get '/' do
-  'index!'
+  'アカデミーヒルズのグーグルカレンダーです'
 end
 
 
