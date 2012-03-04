@@ -2,9 +2,9 @@
 
 require 'rubygems'
 require 'sinatra'
-#require 'icalendar'
-#require 'nokogiri'
-#require 'open-uri'
+require 'icalendar'
+require 'nokogiri'
+require 'open-uri'
 
 
 
