@@ -13,6 +13,9 @@ end
 
 get '/ical' do
 
+
+  TZ = 'Asia/Tokyo'
+
   d = Date.today
   events = []
   current_url = d.strftime("%B").downcase + ".html"
@@ -23,7 +26,7 @@ get '/ical' do
 
   c = Icalendar::Calendar.new
   tz = Icalendar::Timezone.new
-  tz.timezone_id = 'Asia/Tokyo'
+  tz.timezone_id = TZ
   c.add(tz)
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
@@ -47,14 +50,17 @@ get '/ical' do
         e.dtstart = DateTime.new(d.year,d.month,day,start_time[0].to_i,start_time[1].to_i)
         e.dtend = DateTime.new(d.year,d.month,day,end_time[0].to_i,end_time[1].to_i)
         e.summary = title
-        e.tzid = 'Asia/Tokyo'
         c.add_event(e)
       end
     end
   end
   output = ""
   c.to_ical.lines do|l|
+    l = l.gsub(/(DTEND|DTSTART)/) do |date|
+      "#{$1};TZID=#{TZ}"
+    end
     output += l unless /^\s/ =~ l
+
   end
   output
 
