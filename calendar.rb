@@ -76,8 +76,8 @@ get '/ical' do
   end
   output = ""
   c.to_ical.lines do|l|
-    l = l.gsub(/(DTEND|DTSTART)/) do |date|
-      "#{$1};TZID=#{TZ}"
+    l = l.gsub(/(DTEND|DTSTART)(:\d+T\d+)/) do |date|
+      "#{$1};TZID=#{TZ}#{$2}Z"
     end
     output += l unless /^\s/ =~ l
 
