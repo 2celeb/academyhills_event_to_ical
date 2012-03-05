@@ -45,9 +45,9 @@ get '/ical' do
   standard.dtstart =                "19701101T020000"
   standard.recurrence_rules =       ["YEARLY;BYMONTH=11;BYDAY=1SU"]
 
-  tz.add(daylight)
-  tz.add(standard)
-  c.add(tz)
+  #tz.add(daylight)
+  #tz.add(standard)
+  #c.add(tz)
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
 
@@ -77,7 +77,7 @@ get '/ical' do
   output = ""
   c.to_ical.lines do|l|
     l = l.gsub(/(DTEND|DTSTART)(:\d+T\d+)/) do |date|
-      "#{$1};TZID=#{TZ}#{$2}Z"
+      "#{$1}#{$2}Z"
     end
     output += l unless /^\s/ =~ l
 
