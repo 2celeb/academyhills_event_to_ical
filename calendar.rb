@@ -30,24 +30,17 @@ get '/ical' do
 
 
 
-  daylight = Icalendar::Daylight.new
+  #daylight = Icalendar::Daylight.new
   standard = Icalendar::Standard.new
-
-  daylight.timezone_offset_from =   "+1000"
-  daylight.timezone_offset_to =     "+0900"
-  daylight.timezone_name =          "JST"
-  daylight.dtstart =                "19700308TO20000"
-  daylight.recurrence_rules =       ["FREQ=YEARLY;BYMONTH=3;BYDAY=2SU"]
-
   standard.timezone_offset_from =   "+0900"
   standard.timezone_offset_to =     "+1000"
   standard.timezone_name =          "JST"
-  standard.dtstart =                "19701101T020000"
-  standard.recurrence_rules =       ["YEARLY;BYMONTH=11;BYDAY=1SU"]
+  standard.dtstart =                "19700101T000000"
+
 
   #tz.add(daylight)
-  #tz.add(standard)
-  #c.add(tz)
+  tz.add(standard)
+  c.add(tz)
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
 
@@ -76,8 +69,10 @@ get '/ical' do
   end
   output = ""
   c.to_ical.lines do|l|
+#      "#{$1}#{$2}Z"
     l = l.gsub(/(DTEND|DTSTART)(:\d+T\d+)/) do |date|
-      "#{$1}#{$2}Z"
+
+      "#{$1};TZID=Asia/Tokyo#{$2}Z"
     end
     output += l unless /^\s/ =~ l
 
