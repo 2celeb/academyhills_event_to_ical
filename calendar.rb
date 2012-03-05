@@ -27,6 +27,26 @@ get '/ical' do
   c = Icalendar::Calendar.new
   tz = Icalendar::Timezone.new
   tz.timezone_id = TZ
+
+
+
+  daylight = Icalendar::Daylight.new
+  standard = Icalendar::Standard.new
+
+  daylight.timezone_offset_from =   "+1000"
+  daylight.timezone_offset_to =     "+0900"
+  daylight.timezone_name =          "JST"
+  daylight.dtstart =                "19700308TO20000"
+  daylight.recurrence_rules =       ["FREQ=YEARLY;BYMONTH=3;BYDAY=2SU"]
+
+  standard.timezone_offset_from =   "+0900"
+  standard.timezone_offset_to =     "+1000"
+  standard.timezone_name =          "JST"
+  standard.dtstart =                "19701101T020000"
+  standard.recurrence_rules =       ["YEARLY;BYMONTH=11;BYDAY=1SU"]
+
+  tz.add(daylight)
+  tz.add(standard)
   c.add(tz)
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
