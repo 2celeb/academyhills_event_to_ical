@@ -52,7 +52,7 @@ get '/ical' do
       title = text.inner_text.gsub(/--|[\r\t\n■◇]/,'').strip.chomp
 
       next if text  == ""
-      title = title.gsub(/\((\d+:\d+)～(\d+:\d+)\D*\)/,'')
+      title = title.gsub(/\((\d+:\d+)～(\d+:\d+)\D*\)/,'') + "!"
       klass = text.search("span[@class='biz label']").first.inner_text.to_s rescue ""
       times = text.to_s.scan(/(\d+:\d+)～(\d+:\d+)/)
 
