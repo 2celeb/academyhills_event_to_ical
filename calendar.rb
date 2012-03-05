@@ -14,7 +14,7 @@ get '/' do
 end
 
 
-get '/ical' do
+get '/ical2' do
 
 
 
