@@ -72,7 +72,7 @@ get '/ical' do
 #      "#{$1}#{$2}Z"
     l = l.gsub(/(DTEND|DTSTART)(:\d+T\d+)/) do |date|
 
-      "#{$1};TZID=Asia/Tokyo#{$2}Z"
+      "#{$1};TZID=Asia/Tokyo#{$2}"
     end
     output += l unless /^\s/ =~ l
 
