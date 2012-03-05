@@ -22,6 +22,9 @@ get '/ical' do
 
 
   c = Icalendar::Calendar.new
+  tz = Icalendar::Timezone.new
+  tz.timezone_id = 'Asia/Tokyo'
+  c.add(tz)
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
 
