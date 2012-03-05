@@ -31,7 +31,7 @@ get '/ical' do
   tz = Icalendar::Timezone.new
   tz.timezone_id = TZ
 
-
+=begin
   standard = Icalendar::Standard.new
   standard.timezone_offset_from =   "+0900"
   standard.timezone_offset_to =     "+1000"
@@ -41,7 +41,7 @@ get '/ical' do
 
   tz.add(standard)
   c.add(tz)
-
+=end
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
 
