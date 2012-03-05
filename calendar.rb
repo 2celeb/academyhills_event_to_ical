@@ -14,7 +14,7 @@ get '/' do
 end
 
 
-get '/ical2' do
+get '/ical3' do
 
 
 
@@ -31,7 +31,7 @@ get '/ical2' do
   tz = Icalendar::Timezone.new
   tz.timezone_id = TZ
 
-=begin
+
   standard = Icalendar::Standard.new
   standard.timezone_offset_from =   "+0900"
   standard.timezone_offset_to =     "+1000"
@@ -41,7 +41,7 @@ get '/ical2' do
 
   tz.add(standard)
   c.add(tz)
-=end
+
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
 
@@ -71,11 +71,11 @@ get '/ical2' do
   end
   output = ""
   c.to_ical.lines do|l|
-#      "#{$1}#{$2}Z"
-#    l = l.gsub(/(DTEND|DTSTART)(:\d+T\d+)/) do |date|
 
-#      "#{$1};TZID=Asia/Tokyo#{$2}"
-#    end
+    l = l.gsub(/(DTEND|DTSTART)(:\d+T\d+)/) do |date|
+
+      "#{$1};TZID=Asia/Tokyo#{$2}"
+    end
     output += l unless /^\s/ =~ l
 
   end
