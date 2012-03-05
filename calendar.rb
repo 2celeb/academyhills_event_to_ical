@@ -6,6 +6,9 @@ require 'icalendar'
 require 'nokogiri'
 require 'open-uri'
 
+
+TZ = 'Asia/Tokyo'
+
 get '/' do
   'アカデミーヒルズのグーグルカレンダーです'
 end
@@ -14,7 +17,7 @@ end
 get '/ical' do
 
 
-  TZ = 'Asia/Tokyo'
+
 
   d = Date.today
   events = []
@@ -29,8 +32,6 @@ get '/ical' do
   tz.timezone_id = TZ
 
 
-
-  #daylight = Icalendar::Daylight.new
   standard = Icalendar::Standard.new
   standard.timezone_offset_from =   "+0900"
   standard.timezone_offset_to =     "+1000"
@@ -38,9 +39,9 @@ get '/ical' do
   standard.dtstart =                "19700101T000000"
 
 
-  #tz.add(daylight)
   tz.add(standard)
   c.add(tz)
+
 
   Nokogiri.HTML(open(url), nil, 'utf-8').search("//div[@class='calendarModule']/table/tr").each do |tr|
 
@@ -62,6 +63,7 @@ get '/ical' do
         e = Icalendar::Event.new
         e.dtstart = DateTime.new(d.year,d.month,day,start_time[0].to_i,start_time[1].to_i)
         e.dtend = DateTime.new(d.year,d.month,day,end_time[0].to_i,end_time[1].to_i)
+        e.last_modified = DateTime.now
         e.summary = title
         c.add_event(e)
       end
