@@ -37,27 +37,29 @@ class Event
           title = text.inner_text.gsub(/--|[\r\t\n■◇]/,'').strip.chomp
 
           next if text  == ""
-          title = title.gsub(/\((\d+:\d+)～(\d+:\d+)\D*\)/,'') + "!"
+
+          href = text.search("a/@href")
+          href = "http://www.academyhills.com" + href.to_s unless href.to_s.empty?
           klass = text.search("span[@class='biz label']").first.inner_text.to_s rescue ""
-          times = text.to_s.scan(/(\d+[:：]\d+)\s*～\s*(\d+[:：]\d+)/)
+          title = title.gsub(/\((\d+:\d+)～(\d+:\d+)\D*\)/,'').gsub(klass,'')
+          title = "[#{klass}]" + title unless klass.empty?
+          times = text.to_s.gsub(/：/,':').scan(/(\d+[:]\d+)\s*～\s*(\d+[:]\d+)/)
+
+          e = Icalendar::Event.new
+          e.last_modified = DateTime.now
+          e.summary = title
+          e.description = href unless href.to_s.empty?
 
           if times[0]
             # 時間指定が有るイベント
             start_time = times[0][0].split(":")
             end_time = times[0][1].split(":")
-            e = Icalendar::Event.new
             e.dtstart = DateTime.new(task[:year],task[:month],day,start_time[0].to_i,start_time[1].to_i)
             e.dtend = DateTime.new(task[:year],task[:month],day,end_time[0].to_i,end_time[1].to_i)
-            e.last_modified = DateTime.now
-            e.summary = title
-
           else
             # 時間指定を検出できないイベント
-            e = Icalendar::Event.new
             e.dtstart = Date.new(task[:year],task[:month],day)
             e.dtend = Date.new(task[:year],task[:month],day) + 1
-            e.last_modified = DateTime.now
-            e.summary = title
           end
           @calendar_events << e
         end

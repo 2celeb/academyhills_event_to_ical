@@ -2,6 +2,7 @@ sinatra
 icalendar
 nokogiri
 active_support
+haml
 
 
 
